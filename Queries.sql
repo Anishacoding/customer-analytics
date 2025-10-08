@@ -28,18 +28,6 @@ where order_date is not null
 group by order_year 
 order by order_year;
 
--- alternate method to sort using month -
-select 
-format(order_date, 'yyyy-MM') as order_date,
-sum(sales_amount) as total_sales,
-count(distinct customer_key) as total_customers,
-sum(quantity) as total_quantity
-from `gold.fact_sales`
-where order_date is not null
-	and order_date != ''
-group by format(order_date, 'yyyy-MM')
-order by format(order_date, 'yyyy-MM');
-
 -- CUMULATIVE Analysis
 -- calculate the total sales per month
 -- and the running total of sales over time
@@ -62,7 +50,7 @@ group by format(order_date, 'yyyy-MM')
 ) t
 
 -- PERFORMANCE ANALYSIS
--- Analyse the yearly performcae of products by comparing their sales
+-- Analyse the yearly performance of products by comparing their sales
 -- to both the avg sales performace of the product and the previous year's sales
 
 SELECT
@@ -165,4 +153,5 @@ FROM (
     GROUP BY c.customer_key
 ) AS segmented_customers
 GROUP BY customer_segment
+
 ORDER BY total_customers DESC;
